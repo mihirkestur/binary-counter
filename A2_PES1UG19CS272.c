@@ -1,8 +1,9 @@
-//Name    : Mihir Madhusudan Kestur   SRN     : PES1UG19CS272     Section : E     Semester: 4
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include "assignment_2.h"
+//Name    : Mihir Madhusudan Kestur   SRN     : PES1UG19CS272     Section : E     Semester: 4
+
 //this structure is for the list, which is used to keep track of the losers of the winners
 typedef struct player_node{
     int data;

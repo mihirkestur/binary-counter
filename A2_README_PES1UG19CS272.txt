@@ -22,9 +22,11 @@ player is a structure having a data field (it holds the number) and another fiel
 
 Compilation:
 The math.h module has been included. Hence, use -lm flag during compilation.
+===> gcc *.c -lm 
+===> ./a.out
 
 Key take-away from this project:
 Although, the complexity of finding the second largest element by the brute force method is linear (2*n - 2),
-by using stepanov binary counter we can obtain a better linear complexity (n + log n - 2)
+by using stepanov binary counter we can obtain a better linear complexity (n + log n - 2) for greater values of n.
 With a little bit of concentration, conceptually the idea of binary counter is intuitive and easy to understand
 however, actually implementing the stepanov binary counter was quite challenging. 
