@@ -4,8 +4,8 @@
 #include <stdlib.h>
 int main()
 {
-    int n = 11;
-    int a[] = {1,2,3,4,5,6,7,8,9,10,11};
+    int n = 7;
+    int a[] = {2, 3, 1, 4, 5, 0, 7};
 
     find_second_greatest(a,n);
 

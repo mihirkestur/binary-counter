@@ -1,3 +1,4 @@
+//Name    : Mihir Madhusudan Kestur   SRN     : PES1UG19CS272     Section : E     Semester: 4
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -7,7 +8,7 @@ typedef struct player_node{
     int data;
     struct player_node *next_player;
 }player;
-//this structure is used to keep track of the different lists of winners
+//this structure is used to keep track of the different list of matches
 typedef struct list_of_matches{
     struct list_of_matches *next_match_list, *previous_match_list;
     struct player_node *winner;
@@ -19,7 +20,7 @@ static player *create_player(int number){
     new_player->next_player = NULL;
     return new_player;
 }
-//this initializes the adjacency list 
+//this initializes the adjacency list with number of list of matches = matches
 static tournament *initialize_tournament(int matches){
     tournament *new_match_list_head = (tournament *)malloc(sizeof(tournament)),*temp_list;
     new_match_list_head->winner = NULL;
@@ -49,6 +50,7 @@ static void display_second_largest(player *final_list){
 }
 //this function prints the LHS of the match between two different lists in the desired format
 static void arrange_match(player *player_1, player *player_2){
+    //traverse the list and print it 
     player *temp_player;
     temp_player = player_2;
     while(temp_player != NULL){
@@ -63,9 +65,10 @@ static void arrange_match(player *player_1, player *player_2){
     }
     printf("= ");
 }
-//this function finds the winner between two match lists and return the modified match list
+//this function finds the winner between two match lists and returns the modified match list
 static player *find_winner(player *player_1, player *player_2){
     player *winner,*loser,*loser_of_this_winner;
+    //find the winner, form a new list having the losers of the winner and then return it
     if(player_1->data > player_2->data){ 
         printf("%d %d ",player_1->data,player_2->data);
         winner = create_player(player_1->data);
@@ -104,13 +107,13 @@ void find_second_greatest(int *numbers, int length){
     //finding the number matches to be played and initializing the adjacency list
     int matches = ceil(log(length)/log(2)) + 1, flag = 0;
     tournament *match_list_head = initialize_tournament(matches),*match_list = match_list_head;
+    //if number of elements is odd, reduce length by 1 and set flag to 1 to run the logic once more
     if(length % 2 != 0){
         length = length - 1;
         flag = 1;
     }
-    //accessing all elements in the array
+    //accessing all elements in the array two at a time
     for(int i = 0; i < length; i = i + 2){
-        
         match_list = match_list_head;
         //comparing the two numbers and creating a list
         if(numbers[i] > numbers[i+1]){
@@ -121,10 +124,8 @@ void find_second_greatest(int *numbers, int length){
             match_list->winner = create_player(numbers[i+1]);
             match_list->winner->next_player = create_player(numbers[i]);
         }
-        //arrange match between two numbers if two numbers are there if only 1 don't arrange match
-        if(match_list->winner->next_player != NULL){ 
-            first_match(numbers[i],numbers[i+1],match_list);
-        }
+        //play match between the two incoming consecutive elements
+        first_match(numbers[i],numbers[i+1],match_list);
         //arrange match between two different match lists if another match list exists
         match_list = match_list_head->next_match_list;
         while(match_list->winner != NULL){
@@ -136,6 +137,7 @@ void find_second_greatest(int *numbers, int length){
         match_list->winner = match_list->previous_match_list->winner;
         match_list->previous_match_list->winner = NULL;
     }
+    //if odd number of elements, run the logic once more to account for the last element
     if(flag){
         match_list = match_list_head;
         match_list->winner = create_player(numbers[length]);
@@ -150,7 +152,7 @@ void find_second_greatest(int *numbers, int length){
         match_list->winner = match_list->previous_match_list->winner;
         match_list->previous_match_list->winner = NULL;
     }
-    //once all the elements in the array has played at least one match
+    //once all the elements in the array has played at least one match, traverse list to find first non-NULL match list
     match_list = match_list_head;
     player *final_match_list;
     while(match_list != NULL){
@@ -160,6 +162,8 @@ void find_second_greatest(int *numbers, int length){
         }
         match_list = match_list->next_match_list;
     }
+    /*arrange matches between the first non-NULL match list and all other non-NULL match lists remaining 
+    to finally obtain only 1 match list called the final_match_list*/
     match_list = match_list->next_match_list;
     while(match_list != NULL){
         if(match_list->winner != NULL){
